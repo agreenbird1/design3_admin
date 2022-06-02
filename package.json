@@ -1,5 +1,6 @@
 {
-  "name": "vue3.2-ts-template",
+  "name": "design3_admin",
+  "description": "the background management system of design#3",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

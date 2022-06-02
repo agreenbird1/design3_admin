@@ -6,4 +6,9 @@ import { RouterView } from "vue-router";
   <RouterView />
 </template>
 
-<style></style>
+<style>
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+</style>

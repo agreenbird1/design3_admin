@@ -8,7 +8,6 @@
       <el-form
         ref="ruleFormRef"
         :model="ruleForm"
-        status-icon
         :rules="rules"
         label-width="120px"
         class="demo-ruleForm"
@@ -24,52 +23,27 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)"
+          <el-button type="primary" @click="submitForm(ruleFormRef, ruleForm)"
             >登陆</el-button
           >
           <el-button @click="resetForm(ruleFormRef)">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-button @click="opMessage">重置</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { FormInstance } from "element-plus";
-import { ElMessage } from "element-plus";
 import { reactive, ref } from "vue";
-import { rules } from "./login";
+import { rules, submitForm } from "./login";
 
 const ruleFormRef = ref<FormInstance>();
 
 const ruleForm = reactive({
-  password: "",
-  admin: "",
+  password: "roletang",
+  admin: "tqt",
 });
-const opMessage = () => {
-  ElMessage({
-    message: "this is a message.",
-    grouping: true,
-    type: "success",
-  });
-};
-const submitForm = (formEl: FormInstance | undefined) => {
-  ElMessage({
-    message: "this is a message.",
-    grouping: true,
-    type: "success",
-  });
-  if (!formEl) return;
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log("submit!");
-    } else {
-      console.log("error submit!");
-      return false;
-    }
-  });
-};
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;

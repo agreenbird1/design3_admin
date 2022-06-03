@@ -83,7 +83,9 @@ import { RouterLink } from "vue-router";
         color: #fff;
       }
     }
-
+    .el-menu {
+      border-right: unset;
+    }
     .layout-logo {
       padding: 20px;
       text-align: center;

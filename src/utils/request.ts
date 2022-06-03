@@ -1,4 +1,5 @@
-// import cache from "@/utils/cache";
+import type { IAdminStore } from "@/stores/type";
+import cache from "@/utils/cache";
 import axios from "axios";
 
 const instance = axios.create({
@@ -8,8 +9,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    // const user = cache.getCache("user");
-
+    const admin = cache.getCache("admin") as IAdminStore;
+    config.headers && (config.headers["token"] = "Bearer " + admin.token);
     return config;
   },
   (errors) => {

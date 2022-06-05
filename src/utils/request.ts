@@ -10,7 +10,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const admin = cache.getCache("admin") as IAdminStore;
-    config.headers && (config.headers["token"] = "Bearer " + admin.token);
+    config.headers &&
+      (config.headers["authorization"] = "Bearer " + admin.token);
     return config;
   },
   (errors) => {

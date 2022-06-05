@@ -1,4 +1,5 @@
 export interface ICategoryEdit {
+  id?: string;
   value: string;
   name: string;
 }

@@ -1,7 +1,14 @@
 <template>
   <div class="category">
     <div class="category-header">
-      <el-button type="primary" plain @click="openDialog(false)">
+      <el-button
+        type="primary"
+        plain
+        @click="
+          isEdit = false;
+          openDialog();
+        "
+      >
         添加分类
       </el-button>
     </div>
@@ -19,14 +26,22 @@
           <el-button
             size="small"
             @click="
-              openDialog(true, { name: scope.row.name, value: scope.row.value })
+              isEdit = true;
+              openDialog({
+                id: scope.row.id,
+                name: scope.row.name,
+                value: scope.row.value,
+              });
             "
             >编辑</el-button
           >
           <el-button
             size="small"
             type="danger"
-            @click="deleteCategory(scope.row.id)"
+            @click="
+              dialogDelete = true;
+              curId = scope.row.id;
+            "
             >删除</el-button
           >
         </template>
@@ -34,7 +49,8 @@
     </el-table>
   </div>
 
-  <el-dialog v-model="dialogVisible" title="添加分类" width="30%">
+  <!-- 编辑框 -->
+  <el-dialog v-model="dialogEdit" title="分类管理" width="30%">
     <el-form
       label-position="right"
       label-width="70px"
@@ -50,8 +66,26 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button @click="dialogEdit = false">取消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            aeCategoryBtn(isEdit, categoryDialog);
+            dialogEdit = false;
+          "
+          >确认</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- 删除提示框 -->
+  <el-dialog v-model="dialogDelete" title="删除分类" width="30%">
+    删除该分类后，该分类下的商品将都被删除！确认删除吗？
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogDelete = false">取消</el-button>
+        <el-button type="danger" @click="deleteCategoryBtn(curId)"
           >确认</el-button
         >
       </span>
@@ -61,44 +95,35 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import type { ICategory, ICategoryEdit } from "./types";
+import type { ICategoryEdit } from "./types";
+import {
+  tableData,
+  deleteCategoryBtn,
+  dialogDelete,
+  aeCategoryBtn,
+} from "./category";
 
-const dialogVisible = ref(false);
-
-const tableData: ICategory[] = [
-  {
-    name: "手机",
-    value: "phone",
-    id: "1",
-    total: 3,
-  },
-  {
-    name: "电脑",
-    value: "computer",
-    id: "2",
-    total: 10,
-  },
-];
+const dialogEdit = ref(false);
+const isEdit = ref(false);
+const curId = ref("");
 
 let categoryDialog = reactive<ICategoryEdit>({
+  id: "",
   name: "",
   value: "",
 });
 
-const openDialog = (isEdit: boolean, editCategory?: ICategoryEdit) => {
-  dialogVisible.value = true;
-  if (isEdit && editCategory) {
+const openDialog = (editCategory?: ICategoryEdit) => {
+  dialogEdit.value = true;
+  if (isEdit.value && editCategory) {
     // 不能直接赋值，否则破坏响应式
     categoryDialog.name = editCategory.name;
+    categoryDialog.id = editCategory.id;
     categoryDialog.value = editCategory.value;
   } else {
     categoryDialog.name = "";
     categoryDialog.value = "";
   }
-};
-
-const deleteCategory = (id: string) => {
-  console.log(id);
 };
 </script>
 

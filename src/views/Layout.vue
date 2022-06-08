@@ -7,7 +7,7 @@
           active-text-color="#ffd04b"
           background-color="#545c64"
           class="el-menu-vertical-demo"
-          default-active="2"
+          default-active="1"
           text-color="#fff"
         >
           <router-link to="/">
@@ -26,14 +26,21 @@
               分类管理
             </el-menu-item>
           </router-link>
-          <router-link to="/goods"
-            ><el-menu-item index="5">
+
+          <el-sub-menu index="5">
+            <template #title>
               <el-icon>
                 <Goods />
               </el-icon>
               商品管理
-            </el-menu-item>
-          </router-link>
+            </template>
+            <router-link to="/goods">
+              <el-menu-item index="5-1"> 商品总览</el-menu-item>
+            </router-link>
+            <router-link to="/addgoods">
+              <el-menu-item index="5-2"> 添加商品</el-menu-item>
+            </router-link>
+          </el-sub-menu>
           <router-link to="/order"
             ><el-menu-item index="4">
               <el-icon>

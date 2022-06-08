@@ -5,3 +5,4 @@ export {
   deleteCategory,
   updateCategory,
 } from "./category";
+export { deleteAddGoodsPic } from "./files";

@@ -17,6 +17,7 @@
       <el-table-column prop="name" label="分类" width="180"> </el-table-column>
       <el-table-column prop="value" label="类值" width="180"> </el-table-column>
       <el-table-column
+        sortable
         prop="total"
         label="商品总数"
         width="180"

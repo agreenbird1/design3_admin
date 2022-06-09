@@ -4,21 +4,28 @@
     <el-form
       ref="goodsFormRef"
       :model="goodsForm"
-      :rules="rules"
       label-width="120px"
       class="demo-ruleForm"
       status-icon
     >
-      <el-form-item label="商品名称" prop="name" style="width: 40%">
+      <el-form-item label="商品名称" style="width: 40%">
         <el-input v-model="goodsForm.name" />
       </el-form-item>
-      <el-form-item label="商品简介" prop="description" style="width: 40%">
+      <el-form-item label="商品简介" style="width: 40%">
         <el-input type="textarea" v-model="goodsForm.description" />
       </el-form-item>
-      <el-form-item label="商品价格" prop="price" style="width: 40%">
+      <el-form-item label="商品分类" style="width: 40%">
+        <el-cascader
+          :options="categories"
+          placeholder="选择分类"
+          v-model="goodsForm.category_id"
+          @change="changeCategory"
+        />
+      </el-form-item>
+      <el-form-item label="商品价格" style="width: 40%">
         <el-input v-model="goodsForm.price" />
       </el-form-item>
-      <el-form-item label="商品属性" prop="property" style="width: 40%">
+      <el-form-item label="商品属性" style="width: 40%">
         <el-input
           type="textarea"
           placeholder="属性名=属性值&属性值:库存;"
@@ -27,7 +34,7 @@
           v-model="goodsForm.property"
         />
       </el-form-item>
-      <el-form-item label="商品库存" prop="inventory" style="width: 40%">
+      <el-form-item label="商品库存" style="width: 40%">
         <el-input v-model="goodsForm.inventory" />
       </el-form-item>
       <el-form-item label="上架状态" prop="put">
@@ -36,7 +43,7 @@
           <el-radio label="0">下架</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="商品图片" prop="pictures" style="width: 60%">
+      <el-form-item label="商品图片" style="width: 60%">
         <el-upload
           action="http://localhost:8000/upload/product"
           list-type="picture-card"
@@ -47,9 +54,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm(goodsFormRef)"
-          >创建商品</el-button
-        >
+        <el-button type="primary" @click="createGoods">创建商品</el-button>
         <el-button @click="resetForm(goodsFormRef)">重置数据</el-button>
       </el-form-item>
     </el-form>
@@ -58,25 +63,20 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { deleteAddGoodsPic } from "@/api";
-import type {
-  UploadProps,
-  UploadUserFile,
-  FormInstance,
-  FormRules,
-} from "element-plus";
+import { deleteAddGoodsPic, getCategory, addGoods, addGoodsPic } from "@/api";
+import { categoryCascader } from "./addgoods";
+import type { ICategoryCascader, IGoods, IGoodsPic } from "./types";
+import type { UploadProps, UploadUserFile, FormInstance } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 
-const goodsForm = reactive({
-  name: "",
-  price: "",
-  msg: "",
-  description: "",
+const goodsForm = reactive<IGoods>({
+  name: "123",
+  price: "123",
+  description: "123",
   put: "1",
-  category: "",
-  property: "",
+  category_id: "4",
+  property: "颜色=绿色&红色:15;内存=128G&256G:18;",
   inventory: 0,
-  pictures: "",
 });
 
 const goodsFormRef = ref<FormInstance>();
@@ -94,9 +94,14 @@ const changeProperties = () => {
   });
 };
 
-const rules = reactive<FormRules>({
-  name: [{ required: true, message: "商品名称不能为空", trigger: "blur" }],
+const categories = ref<ICategoryCascader[]>([]);
+getCategory().then((res) => {
+  categories.value = categoryCascader(res.data);
 });
+
+const changeCategory = (value: (string | undefined)[]) => {
+  goodsForm.category_id = value[1] as string;
+};
 
 const files = ref<UploadUserFile[]>([]);
 
@@ -105,15 +110,13 @@ const handleRemove: UploadProps["onRemove"] = (uploadFile) => {
   deleteAddGoodsPic((uploadFile.response as any).filename);
 };
 
-const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log("submit!");
-    } else {
-      console.log("error submit!", fields);
-    }
+const createGoods = async () => {
+  const res = await addGoods(goodsForm);
+  const pics: IGoodsPic[] = files.value.map((file) => {
+    return file.response as IGoodsPic;
   });
+  const picRes = await addGoodsPic(pics, res.data);
+  console.log(picRes);
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {

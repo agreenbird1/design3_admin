@@ -67,15 +67,16 @@ import { deleteAddGoodsPic, getCategory, addGoods, addGoodsPic } from "@/api";
 import { categoryCascader } from "./addgoods";
 import type { ICategoryCascader, IGoods, IGoodsPic } from "./types";
 import type { UploadProps, UploadUserFile, FormInstance } from "element-plus";
+import { ElMessage } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 
 const goodsForm = reactive<IGoods>({
-  name: "123",
-  price: "123",
-  description: "123",
+  name: "",
+  price: "",
+  description: "",
   put: "1",
-  category_id: "4",
-  property: "颜色=绿色&红色:15;内存=128G&256G:18;",
+  category_id: "",
+  property: "",
   inventory: 0,
 });
 
@@ -112,11 +113,15 @@ const handleRemove: UploadProps["onRemove"] = (uploadFile) => {
 
 const createGoods = async () => {
   const res = await addGoods(goodsForm);
-  const pics: IGoodsPic[] = files.value.map((file) => {
-    return file.response as IGoodsPic;
-  });
-  const picRes = await addGoodsPic(pics, res.data);
-  console.log(picRes);
+  if (res.status === 200) {
+    const pics: IGoodsPic[] = files.value.map((file) => {
+      return file.response as IGoodsPic;
+    });
+    await addGoodsPic(pics, res.data);
+    ElMessage.success("添加成功！");
+  } else {
+    ElMessage.warning("商品名重复！");
+  }
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {

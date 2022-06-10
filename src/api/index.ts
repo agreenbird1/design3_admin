@@ -7,4 +7,10 @@ export {
 } from "./category";
 export { deleteAddGoodsPic, addGoodsPic } from "./files";
 
-export { addGoods } from "./goods";
+export {
+  addGoods,
+  getGoods,
+  changePut,
+  deleteGoods,
+  getGoodsByCategory,
+} from "./goods";

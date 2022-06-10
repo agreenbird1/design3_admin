@@ -1,6 +1,6 @@
 <template>
   <div class="add-goods">
-    <div class="add-goods-title">编辑商品</div>
+    <Header title="编辑商品"></Header>
     <el-form
       ref="goodsFormRef"
       :model="goodsForm"
@@ -8,13 +8,13 @@
       class="demo-ruleForm"
       status-icon
     >
-      <el-form-item label="商品名称" style="width: 40%">
+      <el-form-item label="商品名称" prop="name" style="width: 40%">
         <el-input v-model="goodsForm.name" />
       </el-form-item>
-      <el-form-item label="商品简介" style="width: 40%">
+      <el-form-item label="商品简介" style="width: 40%" prop="description">
         <el-input type="textarea" v-model="goodsForm.description" />
       </el-form-item>
-      <el-form-item label="商品分类" style="width: 40%">
+      <el-form-item label="商品分类" style="width: 40%" prop="category_id">
         <el-cascader
           :options="categories"
           placeholder="选择分类"
@@ -22,19 +22,19 @@
           @change="changeCategory"
         />
       </el-form-item>
-      <el-form-item label="商品价格" style="width: 40%">
+      <el-form-item label="商品价格" style="width: 40%" prop="price">
         <el-input v-model="goodsForm.price" />
       </el-form-item>
-      <el-form-item label="商品属性" style="width: 40%">
+      <el-form-item label="商品属性" style="width: 40%" prop="property">
         <el-input
           type="textarea"
-          placeholder="属性名=属性值&属性值:库存;"
+          placeholder="属性名=属性值&属性名=属性值:库存;"
           @blur="changeProperties"
           :rows="4"
           v-model="goodsForm.property"
         />
       </el-form-item>
-      <el-form-item label="商品库存" style="width: 40%">
+      <el-form-item label="商品库存" style="width: 40%" prop="inventory">
         <el-input v-model="goodsForm.inventory" />
       </el-form-item>
       <el-form-item label="上架状态" prop="put">
@@ -63,6 +63,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+import Header from "@/components/Header.vue";
 import { deleteAddGoodsPic, getCategory, addGoods, addGoodsPic } from "@/api";
 import { categoryCascader } from "./addgoods";
 import type { ICategoryCascader, IGoods, IGoodsPic } from "./types";
@@ -118,6 +119,8 @@ const createGoods = async () => {
       return file.response as IGoodsPic;
     });
     await addGoodsPic(pics, res.data);
+    resetForm(goodsFormRef.value);
+    files.value = [];
     ElMessage.success("添加成功！");
   } else {
     ElMessage.warning("商品名重复！");
@@ -132,14 +135,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <style scoped lang="less">
 .add-goods {
-  padding: 20px;
-  .add-goods-title {
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-    font-size: 20px;
-    font-weight: 600;
-    padding-bottom: 20px;
-  }
   .el-form {
     padding-top: 20px;
   }

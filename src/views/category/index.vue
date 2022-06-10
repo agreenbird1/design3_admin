@@ -1,4 +1,5 @@
 <template>
+  <Header title="分类管理"></Header>
   <div class="category">
     <div class="category-header">
       <el-button
@@ -95,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import Header from "@/components/Header.vue";
 import { reactive, ref } from "vue";
 import type { ICategoryEdit } from "./types";
 import {
@@ -131,9 +133,9 @@ const openDialog = (editCategory?: ICategoryEdit) => {
 <style scoped lang="less">
 .category {
   padding: 100px;
+  padding-top: 20px;
   .category-header {
     display: flex;
-    flex-direction: row-reverse;
     padding-bottom: 20px;
   }
 }

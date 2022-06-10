@@ -19,6 +19,11 @@ export interface IGoods {
   inventory: number;
 }
 
+export interface IGoodsRes extends IGoods {
+  id: number;
+  pics: string[];
+}
+
 export interface IGoodsPic {
   filename: string;
   mimetype: string;

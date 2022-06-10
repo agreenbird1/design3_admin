@@ -98,17 +98,24 @@
 <script setup lang="ts">
 import Header from "@/components/Header.vue";
 import { reactive, ref } from "vue";
-import type { ICategoryEdit } from "./types";
+import type { ICategoryEdit, ICategory } from "./types";
+import { ElMessage } from "element-plus";
 import {
-  tableData,
-  deleteCategoryBtn,
-  dialogDelete,
-  aeCategoryBtn,
-} from "./category";
+  getCategory,
+  deleteCategory,
+  updateCategory,
+  addCategory,
+} from "@/api";
 
+const tableData = ref<ICategory[]>();
 const dialogEdit = ref(false);
 const isEdit = ref(false);
 const curId = ref("");
+const dialogDelete = ref(false);
+
+getCategory().then((res) => {
+  tableData.value = res.data;
+});
 
 let categoryDialog = reactive<ICategoryEdit>({
   id: "",
@@ -127,6 +134,38 @@ const openDialog = (editCategory?: ICategoryEdit) => {
     categoryDialog.name = "";
     categoryDialog.value = "";
   }
+};
+
+const aeCategoryBtn = (isEdit: boolean, categoryDialog: ICategoryEdit) => {
+  if (isEdit) {
+    updateCategory(categoryDialog).then(() => {
+      const c = tableData.value?.find((c) => c.id === categoryDialog.id);
+      if (c) {
+        c.name = categoryDialog.name;
+        c.value = categoryDialog.value;
+      }
+      ElMessage.success("更新成功");
+    });
+  } else {
+    addCategory(categoryDialog).then((res) => {
+      tableData.value?.push({
+        id: res.data,
+        total: 0,
+        ...categoryDialog,
+      });
+      ElMessage.success("添加成功");
+    });
+  }
+};
+
+const deleteCategoryBtn = (id: string) => {
+  dialogDelete.value = true;
+  deleteCategory(id).then(() => {
+    const idx = tableData.value?.findIndex((c) => c.id === id);
+    tableData.value?.splice(idx as number, 1);
+    ElMessage.success("删除成功！");
+  });
+  dialogDelete.value = false;
 };
 </script>
 

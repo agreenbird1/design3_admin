@@ -42,7 +42,7 @@
             </el-icon>
             订单管理
           </el-menu-item>
-          ><el-menu-item index="/user">
+          <el-menu-item index="/user">
             <el-icon>
               <User />
             </el-icon>

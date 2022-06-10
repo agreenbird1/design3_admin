@@ -1,4 +1,4 @@
-import type { ICategoryCascader } from "./types";
+import type { ICategoryCascader } from "@/views/goods/types";
 
 export const categoryCascader = (categories: any): ICategoryCascader[] => {
   const cascader: ICategoryCascader[] = [];

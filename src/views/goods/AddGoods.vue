@@ -65,7 +65,7 @@
 import { reactive, ref } from "vue";
 import Header from "@/components/Header.vue";
 import { deleteAddGoodsPic, getCategory, addGoods, addGoodsPic } from "@/api";
-import { categoryCascader } from "./addgoods";
+import { categoryCascader } from "@/utils/formatCascader";
 import type { ICategoryCascader, IGoods, IGoodsPic } from "./types";
 import type { UploadProps, UploadUserFile, FormInstance } from "element-plus";
 import { ElMessage } from "element-plus";

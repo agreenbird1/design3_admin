@@ -87,7 +87,7 @@ import {
   getCategory,
   getGoodsByCategory,
 } from "@/api";
-import { categoryCascader } from "./addgoods";
+import { categoryCascader } from "@/utils/formatCascader";
 import type { IGoodsRes } from "./types";
 import type { ICategoryCascader } from "./types";
 import { ElMessage } from "element-plus";

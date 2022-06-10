@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import type { FormInstance } from "element-plus";
 import { reactive, ref } from "vue";
-import { rules, submitForm } from "./login";
+import { rules, submitForm } from "./rules";
 
 const ruleFormRef = ref<FormInstance>();
 

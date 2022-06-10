@@ -7,25 +7,23 @@
           active-text-color="#ffd04b"
           background-color="#545c64"
           class="el-menu-vertical-demo"
-          default-active="1"
+          :default-active="route.path"
           text-color="#fff"
+          unique-opened
+          router
         >
-          <router-link to="/">
-            <el-menu-item index="1">
-              <el-icon>
-                <House />
-              </el-icon>
-              随心选总览
-            </el-menu-item>
-          </router-link>
-          <router-link to="/category">
-            <el-menu-item index="2">
-              <el-icon>
-                <Document />
-              </el-icon>
-              分类管理
-            </el-menu-item>
-          </router-link>
+          <el-menu-item index="/">
+            <el-icon>
+              <House />
+            </el-icon>
+            随心选总览
+          </el-menu-item>
+          <el-menu-item index="/category">
+            <el-icon>
+              <Document />
+            </el-icon>
+            分类管理
+          </el-menu-item>
 
           <el-sub-menu index="5">
             <template #title>
@@ -34,29 +32,22 @@
               </el-icon>
               商品管理
             </template>
-            <router-link to="/goods">
-              <el-menu-item index="5-1"> 商品总览</el-menu-item>
-            </router-link>
-            <router-link to="/addgoods">
-              <el-menu-item index="5-2"> 添加商品</el-menu-item>
-            </router-link>
+            <el-menu-item index="/goods"> 商品总览</el-menu-item>
+
+            <el-menu-item index="/addgoods"> 添加商品</el-menu-item>
           </el-sub-menu>
-          <router-link to="/order"
-            ><el-menu-item index="4">
-              <el-icon>
-                <Management />
-              </el-icon>
-              订单管理
-            </el-menu-item>
-          </router-link>
-          <router-link to="/user"
-            ><el-menu-item index="6">
-              <el-icon>
-                <User />
-              </el-icon>
-              用户管理
-            </el-menu-item>
-          </router-link>
+          <el-menu-item index="/order">
+            <el-icon>
+              <Management />
+            </el-icon>
+            订单管理
+          </el-menu-item>
+          ><el-menu-item index="/user">
+            <el-icon>
+              <User />
+            </el-icon>
+            用户管理
+          </el-menu-item>
         </el-menu>
       </el-col>
       <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
@@ -74,7 +65,9 @@ import {
   Management,
   User,
 } from "@element-plus/icons-vue";
-import { RouterLink } from "vue-router";
+import { useRoute } from "vue-router";
+const route = useRoute();
+console.log(route);
 </script>
 
 <style scoped lang="less">

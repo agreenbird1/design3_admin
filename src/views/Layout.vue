@@ -67,7 +67,6 @@ import {
 } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
-console.log(route);
 </script>
 
 <style scoped lang="less">

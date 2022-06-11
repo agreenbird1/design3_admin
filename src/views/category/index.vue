@@ -15,7 +15,7 @@
     </div>
     <el-table :data="tableData" style="width: 100%" border>
       <el-table-column prop="id" label="编号" width="180"> </el-table-column>
-      <el-table-column prop="name" label="分类" width="180"> </el-table-column>
+      <el-table-column prop="name" label="分类" width="280"> </el-table-column>
       <el-table-column prop="value" label="类值" width="180"> </el-table-column>
       <el-table-column
         sortable
@@ -171,7 +171,6 @@ const deleteCategoryBtn = (id: string) => {
 
 <style scoped lang="less">
 .category {
-  padding: 100px;
   padding-top: 20px;
   .category-header {
     display: flex;

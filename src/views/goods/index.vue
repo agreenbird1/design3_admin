@@ -19,9 +19,9 @@
       border
       style="width: 100%"
     >
-      <el-table-column property="id" label="商品编号" width="160" />
-      <el-table-column property="name" label="商品名称" width="160" />
-      <el-table-column property="description" label="商品简介" width="260" />
+      <el-table-column property="id" label="商品编号" width="100" />
+      <el-table-column property="name" label="商品名称" width="120" />
+      <el-table-column property="description" label="商品简介" width="240" />
       <el-table-column label="商品图片" width="140">
         <template #default="scope">
           <el-image
@@ -33,14 +33,14 @@
           />
         </template>
       </el-table-column>
-      <el-table-column property="price" label="商品价格" sortable width="160" />
+      <el-table-column property="price" label="商品价格" sortable width="80" />
       <el-table-column
         property="inventory"
         label="商品库存"
         sortable
-        width="160"
+        width="120"
       />
-      <el-table-column label="上架状态" width="160">
+      <el-table-column label="上架状态" width="120">
         <template #default="scope">
           <span v-if="scope.row.put === '1'" style="color: skyblue">
             销售中
@@ -152,8 +152,6 @@ const changeCategory = (val: string) => {
     padding: 20px;
     padding-left: 0;
   }
-  padding: 100px;
-  padding-top: 0;
   footer {
     padding: 20px;
     display: flex;

@@ -6,6 +6,7 @@ export {
   updateCategory,
 } from "./category";
 export { deleteAddGoodsPic, addGoodsPic } from "./files";
+export { getUsers, forbidUser } from "./user";
 
 export {
   addGoods,

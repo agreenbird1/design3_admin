@@ -1,7 +1,7 @@
 <template>
   <Header title="用户管理"></Header>
   <div class="user">
-    <el-card class="box-card">
+    <el-card>
       <template #header>
         <div class="card-header">
           <el-button

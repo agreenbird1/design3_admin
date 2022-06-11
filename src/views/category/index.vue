@@ -1,54 +1,58 @@
 <template>
   <Header title="分类管理"></Header>
   <div class="category">
-    <div class="category-header">
-      <el-button
-        type="primary"
-        plain
-        @click="
-          isEdit = false;
-          openDialog();
-        "
-      >
-        添加分类
-      </el-button>
-    </div>
-    <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="id" label="编号" width="180"> </el-table-column>
-      <el-table-column prop="name" label="分类" width="280"> </el-table-column>
-      <el-table-column prop="value" label="类值" width="180"> </el-table-column>
-      <el-table-column
-        sortable
-        prop="total"
-        label="商品总数"
-        width="180"
-      ></el-table-column>
-      <el-table-column label="操作">
-        <template #default="scope">
-          <el-button
-            size="small"
-            @click="
-              isEdit = true;
-              openDialog({
-                id: scope.row.id,
-                name: scope.row.name,
-                value: scope.row.value,
-              });
-            "
-            >编辑</el-button
-          >
-          <el-button
-            size="small"
-            type="danger"
-            @click="
-              dialogDelete = true;
-              curId = scope.row.id;
-            "
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-card>
+      <template #header>
+        <el-button
+          type="primary"
+          plain
+          @click="
+            isEdit = false;
+            openDialog();
+          "
+        >
+          添加分类
+        </el-button>
+      </template>
+      <el-table :data="tableData" style="width: 100%" border>
+        <el-table-column prop="id" label="编号" width="180"> </el-table-column>
+        <el-table-column prop="name" label="分类" width="280">
+        </el-table-column>
+        <el-table-column prop="value" label="类值" width="180">
+        </el-table-column>
+        <el-table-column
+          sortable
+          prop="total"
+          label="商品总数"
+          width="180"
+        ></el-table-column>
+        <el-table-column label="操作">
+          <template #default="scope">
+            <el-button
+              size="small"
+              @click="
+                isEdit = true;
+                openDialog({
+                  id: scope.row.id,
+                  name: scope.row.name,
+                  value: scope.row.value,
+                });
+              "
+              >编辑</el-button
+            >
+            <el-button
+              size="small"
+              type="danger"
+              @click="
+                dialogDelete = true;
+                curId = scope.row.id;
+              "
+              >删除</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 
   <!-- 编辑框 -->
@@ -171,10 +175,6 @@ const deleteCategoryBtn = (id: string) => {
 
 <style scoped lang="less">
 .category {
-  padding-top: 20px;
-  .category-header {
-    display: flex;
-    padding-bottom: 20px;
-  }
+  padding-top: 5px;
 }
 </style>

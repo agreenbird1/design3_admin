@@ -14,7 +14,7 @@
           添加分类
         </el-button>
       </template>
-      <el-table :data="tableData" style="width: 100%" border>
+      <el-table :data="curCategoryList" style="width: 100%" border>
         <el-table-column prop="id" label="编号" width="180"> </el-table-column>
         <el-table-column prop="name" label="分类" width="280">
         </el-table-column>
@@ -52,6 +52,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <footer>
+        <el-pagination
+          small
+          background
+          layout="prev, pager, next"
+          :page-size="10"
+          :total="categoryList?.length"
+          @current-change="changeCurrentPage"
+          @prev-click="changePage"
+          @next-click="changePage"
+        />
+      </footer>
     </el-card>
   </div>
 
@@ -111,14 +123,16 @@ import {
   addCategory,
 } from "@/api";
 
-const tableData = ref<ICategory[]>();
+const categoryList = ref<ICategory[]>();
+const curCategoryList = ref<ICategory[]>();
 const dialogEdit = ref(false);
 const isEdit = ref(false);
 const curId = ref("");
 const dialogDelete = ref(false);
 
 getCategory().then((res) => {
-  tableData.value = res.data;
+  categoryList.value = res.data;
+  curCategoryList.value = categoryList.value?.slice(0, 10);
 });
 
 let categoryDialog = reactive<ICategoryEdit>({
@@ -143,7 +157,7 @@ const openDialog = (editCategory?: ICategoryEdit) => {
 const aeCategoryBtn = (isEdit: boolean, categoryDialog: ICategoryEdit) => {
   if (isEdit) {
     updateCategory(categoryDialog).then(() => {
-      const c = tableData.value?.find((c) => c.id === categoryDialog.id);
+      const c = curCategoryList.value?.find((c) => c.id === categoryDialog.id);
       if (c) {
         c.name = categoryDialog.name;
         c.value = categoryDialog.value;
@@ -152,7 +166,7 @@ const aeCategoryBtn = (isEdit: boolean, categoryDialog: ICategoryEdit) => {
     });
   } else {
     addCategory(categoryDialog).then((res) => {
-      tableData.value?.push({
+      categoryList.value?.push({
         id: res.data,
         total: 0,
         ...categoryDialog,
@@ -165,16 +179,30 @@ const aeCategoryBtn = (isEdit: boolean, categoryDialog: ICategoryEdit) => {
 const deleteCategoryBtn = (id: string) => {
   dialogDelete.value = true;
   deleteCategory(id).then(() => {
-    const idx = tableData.value?.findIndex((c) => c.id === id);
-    tableData.value?.splice(idx as number, 1);
+    const idx = curCategoryList.value?.findIndex((c) => c.id === id);
+    curCategoryList.value?.splice(idx as number, 1);
     ElMessage.success("删除成功！");
   });
   dialogDelete.value = false;
+};
+
+const changeCurrentPage = (val: number) => {
+  const start = (val - 1) * 10;
+  curCategoryList.value = categoryList.value?.slice(start, start + 10);
+};
+const changePage = (val: number) => {
+  const start = (val - 1) * 10;
+  curCategoryList.value = categoryList.value?.slice(start, start + 10);
 };
 </script>
 
 <style scoped lang="less">
 .category {
   padding-top: 5px;
+  footer {
+    padding: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
 }
 </style>

@@ -10,8 +10,11 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const admin = cache.getCache("admin") as IAdminStore;
-    config.headers &&
-      (config.headers["authorization"] = "Bearer " + admin.token);
+    // 存取cache时候判断失误的错误
+    // 应该同时判断admin，即localStorage中是否存在admin
+    // 而不是只判断config.headers
+    if (admin && config.headers)
+      config.headers["authorization"] = "Bearer " + admin.token;
     return config;
   },
   (errors) => {

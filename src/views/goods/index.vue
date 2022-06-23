@@ -130,6 +130,14 @@ const pullGoods = (goods: IGoodsRes) => {
 const deleteGoods = (id: number) => {
   deleteGoodsSer(id).then((res) => {
     if (res.status === 200) {
+      goodsList.value.splice(
+        goodsList.value.findIndex((goods) => goods.id == id),
+        1
+      );
+      currentGoodsList.value.splice(
+        currentGoodsList.value.findIndex((goods) => goods.id == id),
+        1
+      );
       ElMessage.success("删除成功！");
     } else {
       ElMessage.success("删除失败！");

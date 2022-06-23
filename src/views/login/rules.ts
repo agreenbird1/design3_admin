@@ -1,10 +1,11 @@
 import { login } from "@/api";
-import type { IAdminLogin } from "@/api/types";
 import router from "@/router";
 import { useAdminStore } from "@/stores/admin";
-import type { FormInstance } from "element-plus";
 import { ElMessage } from "element-plus";
 import { reactive } from "vue";
+import { adminRoute } from "@/router";
+import type { IAdminLogin } from "@/api/types";
+import type { FormInstance } from "element-plus";
 
 const adminStore = useAdminStore();
 
@@ -40,11 +41,18 @@ export const submitForm = (
         if (res.status !== 200) {
           ElMessage.error(res.data);
         } else {
-          ElMessage.success("登陆成功");
-          adminStore.$patch({
-            ...res.data,
-          });
-          router.push("/");
+          if (res.data.type === "1") {
+            router.addRoute("layout", adminRoute);
+          }
+          if (res.data.forbidden === "1") {
+            ElMessage.error("对不起！您的权限已被禁用！");
+          } else {
+            ElMessage.success("登陆成功");
+            adminStore.$patch({
+              ...res.data,
+            });
+            router.push("/");
+          }
         }
       });
     }

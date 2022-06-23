@@ -48,6 +48,12 @@
             </el-icon>
             用户管理
           </el-menu-item>
+          <el-menu-item v-if="adminStore.type === '1'" index="/admin">
+            <el-icon>
+              <Help />
+            </el-icon>
+            管理员管理
+          </el-menu-item>
         </el-menu>
       </el-col>
       <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
@@ -64,8 +70,12 @@ import {
   House,
   Management,
   User,
+  Help,
 } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
+import { useAdminStore } from "@/stores/admin";
+
+const adminStore = useAdminStore();
 const route = useRoute();
 </script>
 

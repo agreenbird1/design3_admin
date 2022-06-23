@@ -12,3 +12,14 @@ export const login = (admin: IAdminLogin) => {
     password: admin.password,
   });
 };
+
+export const getAdmins = () => {
+  return request("/admin", "get");
+};
+
+export const patchAdmin = (id: number, forbidden: string) => {
+  return request("/admin", "patch", {
+    id,
+    forbidden,
+  });
+};

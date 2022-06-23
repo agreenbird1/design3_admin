@@ -1,4 +1,4 @@
-export { login } from "./admin";
+export { login, getAdmins, patchAdmin } from "./admin";
 export {
   getCategory,
   addCategory,

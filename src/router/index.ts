@@ -57,4 +57,10 @@ const router = createRouter({
   ],
 });
 
+export const adminRoute = {
+  path: "/admin",
+  name: "admin",
+  component: () => import("@/views/admin/index.vue"),
+};
+
 export default router;

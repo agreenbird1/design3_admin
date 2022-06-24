@@ -22,6 +22,7 @@ export interface IGoods {
 export interface IGoodsRes extends IGoods {
   id: number;
   pics: string[];
+  c_value: string;
 }
 
 export interface IGoodsPic {
